@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ridhi Sikaria — Resume Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  :root {
+    --bg: #0f1117; --surface: #181b25; --card: #1e2230; --border: #2a2f40;
+    --text: #e1e4ec; --muted: #8b92a8;
+    --accent: #6c5ce7; --accent2: #00b894; --accent3: #fdcb6e;
+    --accent4: #e17055; --accent5: #74b9ff; --accent6: #a29bfe;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+  /* ── Header ── */
+  .header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    padding: 48px 40px 36px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+  .header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 4px; }
+  .header .sub { color: var(--muted); font-size: 0.95rem; }
+  .header .badge {
+    display: inline-block; background: var(--accent); color: #fff;
+    padding: 3px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-top: 10px;
+  }
+  .kpi-row {
+    display: flex; justify-content: center; gap: 20px; margin-top: 24px; flex-wrap: wrap;
+  }
+  .kpi { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 12px 22px; text-align: center; min-width: 110px; }
+  .kpi .v { font-size: 1.5rem; font-weight: 700; color: var(--accent5); }
+  .kpi .l { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; }
+
+  /* ── Layout ── */
+  .container { max-width: 1200px; margin: 0 auto; padding: 32px 28px; }
+  .section-title {
+    font-size: 1.2rem; font-weight: 700; margin: 36px 0 18px;
+    padding-bottom: 8px; border-bottom: 2px solid var(--accent); display: inline-block;
+  }
+  .section-title:first-child { margin-top: 0; }
+
+  /* ── Bullets ── */
+  .group { margin-bottom: 20px; }
+  .group-label {
+    font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--muted); margin-bottom: 8px; padding-bottom: 4px; border-bottom: 1px solid var(--border);
+  }
+  .bullet {
+    font-size: 0.88rem; padding: 10px 14px; margin-bottom: 5px; border-radius: 6px;
+    background: var(--card); border-left: 3px solid var(--accent); line-height: 1.5;
+    transition: border-color 0.2s;
+  }
+  .bullet:hover { border-left-color: var(--accent2); }
+  .bullet strong { color: #fff; }
+  .m { color: var(--accent5); font-weight: 600; }
+
+  /* ── Charts ── */
+  .charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px; margin-top: 8px; }
+  .ch { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .ch h4 { font-size: 0.82rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; }
+  .ch canvas { max-height: 280px; }
+
+  @media (max-width: 768px) {
+    .header { padding: 28px 16px 24px; }
+    .header h1 { font-size: 1.4rem; }
+    .container { padding: 20px 14px; }
+    .charts { grid-template-columns: 1fr; }
+    .kpi-row { gap: 10px; }
+    .kpi { min-width: 80px; padding: 8px 12px; }
+    .kpi .v { font-size: 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Ridhi Sikaria</h1>
+  <div class="sub">CoinDCX &middot; Okto Platform &middot; DeFi Engineering</div>
+  <div class="badge">Senior Software Engineer - 1</div>
+  <div class="kpi-row">
+    <div class="kpi"><div class="v">2,940+</div><div class="l">Commits</div></div>
+    <div class="kpi"><div class="v">108K+</div><div class="l">Lines Added</div></div>
+    <div class="kpi"><div class="v">16</div><div class="l">Repos</div></div>
+    <div class="kpi"><div class="v">200+</div><div class="l">Jira Issues</div></div>
+    <div class="kpi"><div class="v">44</div><div class="l">Docs</div></div>
+    <div class="kpi"><div class="v">60+</div><div class="l">Incidents</div></div>
+    <div class="kpi"><div class="v">43+</div><div class="l">PRs</div></div>
+    <div class="kpi"><div class="v">3+ yrs</div><div class="l">Feb '23 — Now</div></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ═══════════════ RESUME BULLETS ═══════════════ -->
+  <div class="section-title">Key Achievements</div>
+
+  <div class="group">
+    <div class="group-label">Cost Optimization &amp; Efficiency</div>
+    <div class="bullet">Achieved <strong><span class="m">$4k+ reduction in AWS logs costs</span></strong> (Phase 1) by designing structured JSON logging schema with standardized error codes, log-level routing, and context propagation &mdash; adopted by all Go microservices across the platform.</div>
+    <div class="bullet">Revamped the blockchain scanner microservice processor, achieving a <strong><span class="m">10x cost reduction</span></strong> and <strong><span class="m">3x reduction in RPC calls</span></strong> per network by optimizing Kafka consumer batching, PostgreSQL bulk upserts, and Redis caching layers.</div>
+    <div class="bullet">Delivered Gas Station Network (GSN) V2 system with <strong><span class="m">50% reduced service latency</span></strong> (150% of planned SLO target), now at 100% adoption. Built with Go, PostgreSQL, Redis multi-layer caching, and SQS-based async processing.</div>
+    <div class="bullet">Optimized the blockchain interaction layer resources achieving <strong><span class="m">~50% reduction in CPU utilization</span></strong> and memory allocation through connection pooling, goroutine management, and RPC request deduplication based on per-network txn traffic.</div>
+    <div class="bullet">Reduced provider timeouts in the blockchain interaction layer for Ethereum JSON-RPC calls; resolved frequent 5xx errors for EVM order execution improving platform SLAs.</div>
+  </div>
+
+  <div class="group">
+    <div class="group-label">Architecture &amp; System Design</div>
+    <div class="bullet"><strong>Designed and developed the Gas Station Network (GSN) V2 system end-to-end autonomously</strong> in Go &mdash; applying factory and strategy patterns, Redis caching with TTL-based invalidation, PostgreSQL for state management, and SQS for async gas estimation &mdash; enabling faster feature delivery and multi-chain coverage.</div>
+    <div class="bullet">Designed scalable event-driven architecture for <strong>Automated System Health HUD</strong> using Redis pub/sub for real-time state, Kafka for event streaming, SQS for notification delivery, and Cron-based health polling. Authored TRDs and data-backed POCs on 4 fronts. Acknowledged by staff engineers.</div>
+    <div class="bullet">Implemented common logger (structured JSON with Logrus) and secret management (AWS Secrets Manager with PII masking) Go libraries across all platform microservices in a <span class="m">2-day window</span>, adopted as org-wide benchmark.</div>
+    <div class="bullet">Took full ownership of the admin dashboard microservice (Node.js/TypeScript) &mdash; integrated legacy poller + new scanner REST APIs, implemented Token Group CRUD with PostgreSQL state management and Redis-backed session handling.</div>
+  </div>
+
+  <div class="group">
+    <div class="group-label">Automation &amp; Feature Delivery</div>
+    <div class="bullet">Built <strong>token auto listing/delisting automation</strong> using DynamoDB for config state, Kafka event triggers, and Redis cache invalidation &mdash; reducing manual ops from hours to minutes. Implemented kill switch critical during pump.fun breaking changes incident.</div>
+    <div class="bullet">Delivered <strong>Zero Gas Fees feature</strong> across Gas Station Network v1/v2 with sponsorship limits, SVM/EVM chain segregation, and Redis multi-layer caching with PostgreSQL-backed state tracking.</div>
+    <div class="bullet">Implemented <strong>EIP-1559 (Type 2) transaction support</strong> across Gas Station Network, swap, and DApp integration microservices with <span class="m">98% test coverage</span>, significantly increasing HyperEVM order success rates.</div>
+    <div class="bullet">Expanded Solana (SVM) support on the blockchain scanner microservice: Jupiter/Orca/Radium swap pair filtering, Solana instruction decoding via custom Go parsers, zero-error token onboarding.</div>
+    <div class="bullet">Delivered <strong><span class="m">35 SP Okto Chain epic</span></strong>: SVM transaction orchestration in the intent resolver microservice, DTN signatures (EIP-712/191), ULL event parsing via Kafka consumers, off-chain intent resolution &mdash; zero reported bugs.</div>
+    <div class="bullet">Onboarded <span class="m">6+ DeFi protocols</span> (UniswapV3, V2, QLP, ZKsync, Ankr, Stader), APTOS new fungible token standard, and EVM networks with smart contract event indexing.</div>
+    <div class="bullet">Designed reusable <strong>Decoder/Encoder module</strong> in the intent resolver microservice (Go) for on-chain and off-chain intents using interface-driven design, preventing code duplication across 3 downstream microservices.</div>
+    <div class="bullet">Enabled HyperEVM chain support across blockchain scanner, blockchain interaction layer, DApp integration, and Gas Station Network microservices with HyperScan REST API integration for dynamic gas price estimation.</div>
+  </div>
+
+  <div class="group">
+    <div class="group-label">Reliability &amp; Incident Response</div>
+    <div class="bullet">Maintained <strong><span class="m">&lt;0 min MTTA and MTTR</span></strong> during on-call rotations using Grafana alerting and Datadog APM; handled highest CRT volume (<span class="m">18 tickets</span>) in a cycle with 15 QA bugs resolved.</div>
+    <div class="bullet">Authored <strong><span class="m">7+ Root Cause Analyses</span></strong> including SEV-0 scanner poller panic (Go goroutine crash), AWS VPC CNI plugin crash, Solana SWAP estimation failures (QuickNode RPC latency), signing service connectivity loss, Jupiter aggregator stale data errors (errorCode 6036/6038).</div>
+    <div class="bullet">Active responder in <strong><span class="m">60+ production incidents</span></strong> &mdash; diagnosed failures via Grafana dashboards, Datadog distributed traces, and CloudWatch metrics; coordinated fixes with Jupiter, QuickNode, and AWS support teams.</div>
+    <div class="bullet">Implemented auto-healing with Kafka consumer respawning, OpenTelemetry (OTEL) tracing integration, and Axios retry middleware across all data platform microservices.</div>
+    <div class="bullet">Fixed critical production bugs: Solana missed blocks (SQS consumer offset), APTOS 100-txn API pagination limit, disputed orders (Helius/QuickNode webhook inconsistency), Bridge Token depegging, token 2022 slippage (Jupiter v2 instructions), Gas Station Network v2 inclusive deposit consolidation.</div>
+    <div class="bullet">Addressed <span class="m">50+ Snyk/lint vulnerabilities</span> across 6-8 Node.js microservices; integrated SonarQube for automated test coverage gating; maintained security posture across all Go microservices.</div>
+  </div>
+
+  <div class="group">
+    <div class="group-label">Quality &amp; Test Coverage</div>
+    <div class="bullet">Achieved <strong><span class="m">98% test coverage for Type 2 transactions</span></strong>, <strong><span class="m">100% for config-based scanner</span></strong>, and <strong><span class="m">97% for off-chain intent resolver</span></strong> using Go table-driven tests and mock interfaces &mdash; consistently exceeding the team's 95% target.</div>
+    <div class="bullet">Near-zero post-deployment bugs across all major feature releases; Go unit + integration test suites became a team benchmark for quality.</div>
+    <div class="bullet">Designed thread-safe, generic multi-layer caching module (Redis L1 + in-memory L2 with sync.RWMutex) immediately adopted by other microservices, improving read latency ecosystem-wide.</div>
+  </div>
+
+  <div class="group">
+    <div class="group-label">Leadership, Mentoring &amp; Documentation</div>
+    <div class="bullet">Authored <strong><span class="m">44 Confluence documents</span></strong> spanning TRDs, RCAs, API contracts, POCs, Kafka event schemas, and microservice onboarding guides.</div>
+    <div class="bullet">Authored/shepherded <strong><span class="m">43+ Pull Requests across 12 repositories</span></strong> (GitHub &amp; Bitbucket) spanning Go, Node.js/TypeScript, and Java codebases.</div>
+    <div class="bullet">Completed <strong><span class="m">11 technical spikes</span></strong>: Gas Station Network refactoring, scanner reliability, intent resolver SVM integration, structured logging, Solana pricing, protocol exploration.</div>
+    <div class="bullet">Resolved <strong><span class="m">50 bugs (34 closed)</span></strong> including 12 P0 and 29 P1 issues across microservices built on Go, Node.js, PostgreSQL, Redis, Kafka, and DynamoDB.</div>
+    <div class="bullet">Mentored team members on blockchain scanner &amp; Gas Station Network microservices with clean handover documentation, Grafana dashboard setup guides, and Kafka topic schemas.</div>
+    <div class="bullet">Led design review calls, organized KT sessions, and drove cross-functional alignment with QA, Product, and DevOps teams on deployment pipelines and infrastructure.</div>
+    <div class="bullet">Conducted SDE-3 interviews with <strong><span class="m">100% feedback submitted within 24 hours</span></strong> (against 48-hour SLA).</div>
+    <div class="bullet">Maintained <strong><span class="m">93% office attendance (4+ days/week)</span></strong> vs 2-3 expected; delivered <strong><span class="m">9/10 stories on communicated timeline</span></strong>.</div>
+    <div class="bullet">Contributed <strong><span class="m">2,940+ commits across 16 repositories</span></strong> (108K+ lines added, 71K removed) spanning Go, Node.js/TypeScript, Java, and Solidity &mdash; backed by PostgreSQL, MongoDB, DynamoDB, Redis, Kafka, SQS/SNS, and Grafana/Datadog observability.</div>
+    <div class="bullet">Progressed from Intern to Senior Software Engineer - 1 in 3 years with consistently high performance ratings (overall <span class="m">3.95-4.2/5 manager ratings</span>).</div>
+  </div>
+
+  <!-- ═══════════════ CHARTS ═══════════════ -->
+  <div class="section-title">Metrics &amp; Visualizations</div>
+
+  <div class="charts">
+    <div class="ch"><h4>Commits by Repository</h4><canvas id="c1"></canvas></div>
+    <div class="ch"><h4>Commits by Year</h4><canvas id="c2"></canvas></div>
+    <div class="ch"><h4>Lines of Code: Added vs Removed</h4><canvas id="c3"></canvas></div>
+    <div class="ch"><h4>Performance Ratings by Cycle</h4><canvas id="c4"></canvas></div>
+    <div class="ch"><h4>Key Impact Metrics</h4><canvas id="c5"></canvas></div>
+    <div class="ch"><h4>Test Coverage vs Team Target</h4><canvas id="c6"></canvas></div>
+    <div class="ch"><h4>Career Progression</h4><canvas id="c7"></canvas></div>
+    <div class="ch"><h4>Ratings by Goal Category (Apr '25–Oct '25)</h4><canvas id="c8"></canvas></div>
+    <div class="ch"><h4>Jira Issues by Year &amp; Type</h4><canvas id="c9"></canvas></div>
+    <div class="ch"><h4>Bug Resolution by Priority</h4><canvas id="c10"></canvas></div>
+    <div class="ch"><h4>Spikes &amp; RCAs Delivered</h4><canvas id="c11"></canvas></div>
+    <div class="ch"><h4>PR Distribution by Repo</h4><canvas id="c12"></canvas></div>
+  </div>
+
+</div>
+
+<script>
+const C={a:'#6c5ce7',a2:'#00b894',a3:'#fdcb6e',a4:'#e17055',a5:'#74b9ff',a6:'#a29bfe',g:'#4ade80',t:'#2dd4bf',p:'#f472b6',o:'#fb923c',b:'#60a5fa',pu:'#c084fc'};
+const gc='rgba(255,255,255,0.06)', tc='#8b92a8';
+Chart.defaults.color=tc; Chart.defaults.borderColor=gc; Chart.defaults.font.family="'Inter',sans-serif";
+
+new Chart(document.getElementById('c1'),{type:'bar',data:{labels:['okto-scanner','okto-gsn','okto-admin','okto-dapp','okto-gbs','okto-data-agg','okto-swap','okto-dms','okto-gbl','okto-gas-stn','okto-nonce','okto-data-query','okto-irs-oe','okto-bff','okto-fe','okto-exp-cfg'],datasets:[{label:'Commits',data:[1135,743,588,157,80,72,71,50,38,25,25,18,16,12,9,6],backgroundColor:[C.a5,C.a,C.a2,C.a3,C.a4,C.a6,C.t,C.p,C.o,C.b,C.g,C.pu,'#94a3b8','#94a3b8','#94a3b8','#94a3b8'],borderRadius:4}]},options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{grid:{color:gc}},y:{grid:{display:false}}}}});
+
+new Chart(document.getElementById('c2'),{type:'bar',data:{labels:['2023','2024','2025','2026 (YTD)'],datasets:[{label:'Scanner',data:[11,650,339,135],backgroundColor:C.a5},{label:'GSN',data:[0,185,417,141],backgroundColor:C.a},{label:'Admin',data:[417,115,56,0],backgroundColor:C.a2},{label:'Others',data:[0,41,302,131],backgroundColor:C.a4}]},options:{plugins:{legend:{position:'bottom',labels:{boxWidth:12,padding:10}}},scales:{x:{stacked:true},y:{stacked:true,grid:{color:gc}}}}});
+
+new Chart(document.getElementById('c3'),{type:'bar',data:{labels:['GSN','Scanner','GBS','GBL','Dapp','Admin','Swap','DMS','Gas-Stn','Exp-Cfg'],datasets:[{label:'Added',data:[42151,25944,11944,7535,6837,5941,3873,1206,1014,611],backgroundColor:C.a2},{label:'Removed',data:[19870,14443,20007,2327,3255,2993,1107,728,5346,94],backgroundColor:C.a4}]},options:{plugins:{legend:{position:'bottom',labels:{boxWidth:12}}},scales:{y:{grid:{color:gc}}}}});
+
+new Chart(document.getElementById('c4'),{type:'line',data:{labels:["Feb-May'23","Apr-Sep'23","Oct'23-Mar'24","Apr-Sep'24","Oct'24-Mar'25","Apr-Oct'25","Oct'25-Mar'26"],datasets:[{label:'Self Rating',data:[3.0,4.0,3.0,4.6,4.2,4.2,4.3],borderColor:C.a5,backgroundColor:'rgba(116,185,255,0.1)',tension:0.3,fill:true,pointRadius:5},{label:'Manager Rating',data:[null,4.0,4.0,4.2,4.0,3.95,null],borderColor:C.a2,backgroundColor:'rgba(0,184,148,0.1)',tension:0.3,fill:true,pointRadius:5}]},options:{plugins:{legend:{position:'bottom',labels:{boxWidth:12}}},scales:{y:{min:1,max:5,ticks:{stepSize:1,callback:v=>v+'/5'},grid:{color:gc}},x:{grid:{color:gc}}}}});
+
+new Chart(document.getElementById('c5'),{type:'bar',data:{labels:['RPC Calls\nReduction','Processor\nCost Red.','Latency\nRed. (GSN)','CPU Red.\n(GBL)','AWS Logs\nSaved ($K)','CRT Tickets\nResolved','Test Cov.\nType2 (%)','Confluence\nDocs'],datasets:[{data:[3,10,50,50,4,18,98,44],backgroundColor:[C.a5,C.a2,C.a,C.t,C.a3,C.a4,C.g,C.a6],borderRadius:6}]},options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:function(ctx){return ctx.raw+['x','x','%','%','K+','','%',''][ctx.dataIndex]}}}},scales:{y:{grid:{color:gc}}}}});
+
+new Chart(document.getElementById('c6'),{type:'bar',data:{labels:['Type 2 Txns\n(GSN/Swap/Dapp)','Config-based\nScanner','Off-chain\nIRS','Team Target'],datasets:[{label:'Coverage %',data:[98,100,97,95],backgroundColor:[C.a2,C.a,C.a5,'rgba(255,255,255,0.15)'],borderRadius:6,borderWidth:0}]},options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.raw+'%'}}},scales:{y:{min:90,max:102,ticks:{callback:v=>v+'%'},grid:{color:gc}},x:{grid:{display:false}}}}});
+
+new Chart(document.getElementById('c7'),{type:'line',data:{labels:["Feb '23","Jun '23","Oct '23","Apr '24","Oct '24","Apr '25","Oct '25","Apr '26"],datasets:[{label:'Level',data:[1,2,2,2,2,3,3,3],borderColor:C.a,backgroundColor:C.a,stepped:true,fill:false,pointRadius:6,pointBackgroundColor:[C.a3,C.a2,C.a2,C.a2,C.a2,C.a,C.a,C.a]}]},options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>['','Intern','SDE','SSE-1'][ctx.raw]||''}}},scales:{y:{min:0,max:4,ticks:{stepSize:1,callback:v=>['','Intern','SDE','SSE-1',''][v]||''},grid:{color:gc}},x:{grid:{color:gc}}}}});
+
+new Chart(document.getElementById('c8'),{type:'bar',data:{labels:['Growth','Initiatives','Quality','Execution','Talent','Communication'],datasets:[{label:'Self',data:[5,5,4,4.2,3,5],backgroundColor:C.a5,borderRadius:4},{label:'Manager',data:[4,4,4,3.9,3,4],backgroundColor:C.a2,borderRadius:4}]},options:{plugins:{legend:{position:'bottom',labels:{boxWidth:12}}},scales:{y:{min:1,max:5,ticks:{stepSize:1,callback:v=>v+'/5'},grid:{color:gc}},x:{grid:{display:false}}}}});
+
+new Chart(document.getElementById('c9'),{type:'bar',data:{labels:['2023','2024','2025','2026 (YTD)'],datasets:[{label:'Stories/Tasks',data:[6,16,21,7],backgroundColor:C.a5,borderRadius:4},{label:'Bugs',data:[6,11,33,0],backgroundColor:C.a4,borderRadius:4},{label:'Spikes',data:[3,2,6,1],backgroundColor:C.a3,borderRadius:4}]},options:{plugins:{legend:{position:'bottom',labels:{boxWidth:12}}},scales:{x:{stacked:true},y:{stacked:true,grid:{color:gc}}}}});
+
+new Chart(document.getElementById('c10'),{type:'doughnut',data:{labels:['P0 (12)','P1 (29)','P2 (6)','P3 (3)'],datasets:[{data:[12,29,6,3],backgroundColor:[C.a4,C.a3,C.a5,C.a2],borderWidth:0}]},options:{plugins:{legend:{position:'right',labels:{boxWidth:12,padding:8}}},cutout:'55%'}});
+
+new Chart(document.getElementById('c11'),{type:'bar',data:{labels:['Spikes\nCompleted','Spikes\nSuccessful','RCAs\nAuthored','TRDs\nAuthored','SOPs\nWritten'],datasets:[{data:[12,11,7,6,3],backgroundColor:[C.a5,C.a2,C.a4,C.a,C.a3],borderRadius:6}]},options:{plugins:{legend:{display:false}},scales:{y:{grid:{color:gc},ticks:{stepSize:2}},x:{grid:{display:false}}}}});
+
+new Chart(document.getElementById('c12'),{type:'doughnut',data:{labels:['okto-gsn (12)','okto-scanner (7)','okto-admin (5)','okto-dapp (4)','okto-gbl (3)','okto-onboarding (3)','okto-bff (2)','okto-swap (2)','okto-irs (2)','Others (3)'],datasets:[{data:[12,7,5,4,3,3,2,2,2,3],backgroundColor:[C.a,C.a5,C.a2,C.a3,C.a6,C.t,C.o,C.p,C.b,'#94a3b8'],borderWidth:0}]},options:{plugins:{legend:{position:'right',labels:{boxWidth:10,padding:6,font:{size:11}}}},cutout:'50%'}});
+</script>
+</body>
+</html>

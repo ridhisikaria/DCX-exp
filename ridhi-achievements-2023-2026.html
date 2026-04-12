@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ridhi Sikaria — Work Achievements 2023-2026</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #181b25;
+    --card: #1e2230;
+    --border: #2a2f40;
+    --text: #e1e4ec;
+    --muted: #8b92a8;
+    --accent: #6c5ce7;
+    --accent2: #00b894;
+    --accent3: #fdcb6e;
+    --accent4: #e17055;
+    --accent5: #74b9ff;
+    --accent6: #a29bfe;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 0;
+  }
+  .hero {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    padding: 60px 40px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero h1 { font-size: 2.4rem; font-weight: 700; margin-bottom: 8px; }
+  .hero .subtitle { color: var(--muted); font-size: 1.1rem; }
+  .hero .role-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    padding: 4px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    margin-top: 12px;
+    font-weight: 600;
+  }
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+  .stat-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 16px 28px;
+    text-align: center;
+    min-width: 140px;
+  }
+  .stat-card .num { font-size: 1.8rem; font-weight: 700; color: var(--accent5); }
+  .stat-card .label { font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+
+  .nav-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px 20px 0;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 100;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 16px;
+  }
+  .nav-tabs button {
+    background: var(--card);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 8px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.88rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .nav-tabs button:hover { border-color: var(--accent); color: var(--text); }
+  .nav-tabs button.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .tab-content { display: none; padding: 32px 40px; max-width: 1200px; margin: 0 auto; }
+  .tab-content.active { display: block; }
+
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--accent);
+    display: inline-block;
+  }
+  h3 {
+    font-size: 1.15rem;
+    margin: 24px 0 12px;
+    color: var(--accent5);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  h3 .period { font-size: 0.82rem; color: var(--muted); font-weight: 400; }
+
+  .achievement-list { list-style: none; padding: 0; }
+  .achievement-list li {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+    position: relative;
+    padding-left: 20px;
+    transition: border-color 0.2s;
+  }
+  .achievement-list li:hover { border-color: var(--accent); }
+  .achievement-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    border-radius: 10px 0 0 10px;
+    background: var(--accent);
+  }
+  .tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    margin-right: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  .tag-cost { background: #1b4332; color: #52b788; }
+  .tag-arch { background: #1a1a4e; color: #a29bfe; }
+  .tag-reliability { background: #3d1e06; color: #fdcb6e; }
+  .tag-feature { background: #0a3045; color: #74b9ff; }
+  .tag-incident { background: #4a0e0e; color: #e17055; }
+  .tag-mentoring { background: #2d1b4e; color: #d8b4fe; }
+  .tag-security { background: #4a2c0e; color: #f0b27a; }
+
+  .rating {
+    display: inline-block;
+    font-size: 0.72rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    margin-left: 6px;
+  }
+  .rating-5 { background: #0b3d0b; color: #4ade80; }
+  .rating-4 { background: #1b4332; color: #86efac; }
+  .rating-3 { background: #2d2006; color: #fbbf24; }
+
+  .metric-highlight {
+    color: var(--accent2);
+    font-weight: 600;
+  }
+
+  .charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  .chart-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .chart-card h4 {
+    font-size: 0.95rem;
+    color: var(--muted);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .chart-card canvas { max-height: 320px; }
+
+  .top10-card {
+    background: linear-gradient(135deg, var(--card) 0%, #1a1f33 100%);
+    border: 1px solid var(--accent);
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .top10-rank {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--accent);
+    min-width: 40px;
+    text-align: center;
+    line-height: 1;
+    padding-top: 4px;
+  }
+  .top10-body h4 { font-size: 1.05rem; margin-bottom: 4px; }
+  .top10-body p { font-size: 0.88rem; color: var(--muted); }
+
+  .resume-section { margin-bottom: 32px; }
+  .resume-section h3 { border-bottom: 1px solid var(--border); padding-bottom: 6px; margin-bottom: 14px; }
+  .resume-section ul { padding-left: 20px; }
+  .resume-section li { margin-bottom: 8px; font-size: 0.92rem; }
+
+  .theme-group { margin-bottom: 36px; }
+  .theme-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    background: var(--card);
+    border-radius: 10px;
+    border-left: 4px solid var(--accent);
+  }
+  .theme-header .icon { font-size: 1.4rem; }
+  .theme-header h3 { margin: 0; color: var(--text); }
+  .theme-header .count { font-size: 0.78rem; color: var(--muted); margin-left: auto; }
+
+  .oneliner-group { margin-bottom: 28px; }
+  .oneliner-group h3 {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .oneliner-list { list-style: none; padding: 0; counter-reset: ol; }
+  .oneliner-list li {
+    font-size: 0.9rem;
+    padding: 9px 14px 9px 12px;
+    margin-bottom: 4px;
+    border-radius: 6px;
+    background: var(--card);
+    border-left: 3px solid var(--accent);
+    transition: border-color 0.2s, background 0.2s;
+    cursor: default;
+    line-height: 1.45;
+  }
+  .oneliner-list li:hover { border-left-color: var(--accent2); background: #1a1f33; }
+  .oneliner-list li strong { color: var(--accent2); }
+  .oneliner-list li .ol-metric { color: var(--accent5); font-weight: 600; }
+  .oneliner-copy-hint {
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 24px;
+    padding: 8px;
+    background: var(--surface);
+    border-radius: 8px;
+    border: 1px dashed var(--border);
+  }
+
+  @media (max-width: 768px) {
+    .hero { padding: 32px 20px; }
+    .hero h1 { font-size: 1.6rem; }
+    .tab-content { padding: 20px 16px; }
+    .charts-grid { grid-template-columns: 1fr; }
+    .stats-row { gap: 12px; }
+    .stat-card { min-width: 100px; padding: 12px 16px; }
+    .stat-card .num { font-size: 1.3rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Ridhi Sikaria</h1>
+  <div class="subtitle">CoinDCX &middot; Okto Platform &middot; DeFi Engineering</div>
+  <div class="role-badge">Senior Software Engineer - 1</div>
+  <div class="stats-row">
+    <div class="stat-card"><div class="num">2,940+</div><div class="label">Total Commits</div></div>
+    <div class="stat-card"><div class="num">200+</div><div class="label">Jira Issues</div></div>
+    <div class="stat-card"><div class="num">44</div><div class="label">Confluence Docs</div></div>
+    <div class="stat-card"><div class="num">16</div><div class="label">Repos Contributed</div></div>
+    <div class="stat-card"><div class="num">108k+</div><div class="label">Lines Added</div></div>
+    <div class="stat-card"><div class="num">60+</div><div class="label">Prod Incidents</div></div>
+    <div class="stat-card"><div class="num">43+</div><div class="label">PRs Authored</div></div>
+    <div class="stat-card"><div class="num">3+ yrs</div><div class="label">Feb '23 — Now</div></div>
+  </div>
+</div>
+
+<div class="nav-tabs">
+  <button class="active" onclick="switchTab('charts')">Metrics &amp; Charts</button>
+  <button onclick="switchTab('chronological')">Chronological</button>
+  <button onclick="switchTab('resume')">Resume Style</button>
+  <button onclick="switchTab('themes')">By Theme</button>
+  <button onclick="switchTab('top10')">Top 10 Highlights</button>
+  <button onclick="switchTab('oneliners')">Resume One-Liners</button>
+</div>
+
+<!-- ==================== CHARTS TAB ==================== -->
+<div id="charts" class="tab-content active">
+  <h2>Performance Metrics & Visualizations</h2>
+  <div class="charts-grid">
+    <div class="chart-card">
+      <h4>Commits by Repository</h4>
+      <canvas id="chartRepoCommits"></canvas>
+    </div>
+    <div class="chart-card">
+      <h4>Commits Over Time (by Year)</h4>
+      <canvas id="chartYearlyCommits"></canvas>
+    </div>
+    <div class="chart-card">
+      <h4>Lines of Code: Added vs Removed</h4>
+      <canvas id="chartLOC"></canvas>
+    </div>
+    <div class="chart-card">
+      <h4>Performance Ratings (Self vs Manager) by Review Cycle</h4>
+      <canvas id="chartRatings"></canvas>
+    </div>
+    <div class="chart-card">
+      <h4>Monthly Commit Activity (All Repos)</h4>
+      <canvas id="chartMonthly"></canvas>
+    </div>
+    <div class="chart-card">
+      <h4>Key Quantified Impact Metrics</h4>
+      <canvas id="chartImpact"></canvas>
+    </div>
+    <div class="chart-card">
+      <h4>Services Touched Per Review Cycle</h4>
+      <canvas id="chartServicesCycle"></canvas>
+    </div>
+    <div class="chart-card">
+      <h4>Confluence Docs by Category</h4>
+      <canvas id="chartDocsCat"></canvas>
+    </div>
+    <div class="chart-card">
+      <h4>Language Distribution (Repos)</h4>
+      <canvas id="chartLangs"></canvas>
+    </div>
+    <div class="chart-card">
+      <h4>Career Progression Timeline</h4>
+      <canvas id="chartCareer"></canvas>
+    </div>
+    <div class="chart-card">
+      <h4>Test Coverage by Feature (Apr'25-Oct'25)</h4>
+      <canvas id="chartTestCoverage"></canvas>
+    </div>
+    <div class="chart-card">
+      <h4>Manager vs Self Ratings by Goal Category (Apr'25-Oct'25)</h4>
+      <canvas id="chartGoalRatings"></canvas>
+    </div>
+    <div class="chart-card">
+      <h4>Jira Issues by Year & Type</h4>
+      <canvas id="chartJiraByYear"></canvas>
+    </div>
+    <div class="chart-card">
+      <h4>Slack Channel Activity (Messages)</h4>
+      <canvas id="chartSlackChannels"></canvas>
+    </div>
+    <div class="chart-card">
+      <h4>PR Distribution by Repository</h4>
+      <canvas id="chartPRsByRepo"></canvas>
+    </div>
+    <div class="chart-card">
+      <h4>Spikes & RCAs Delivered</h4>
+      <canvas id="chartSpikesRCAs"></canvas>
+    </div>
+    <div class="chart-card">
+      <h4>Bug Resolution by Priority</h4>
+      <canvas id="chartBugPriority"></canvas>
+    </div>
+    <div class="chart-card">
+      <h4>Lines of Code by Year (All Repos)</h4>
+      <canvas id="chartLOCByYear"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHRONOLOGICAL TAB ==================== -->
+<div id="chronological" class="tab-content">
+  <h2>Achievements by Review Cycle</h2>
+
+  <h3>Cycle 1: Feb '23 — May '23 <span class="period">(Intern, Data Platform)</span></h3>
+  <ul class="achievement-list">
+    <li><span class="tag tag-feature">R&D</span> Extensively analyzed staking providers' smart contracts (Stader, Ankr); mapped complete operational flows. Authored <em>Analogising Staking Providers</em> on Confluence.</li>
+    <li><span class="tag tag-feature">POC</span> Wrote & deployed custom Solidity smart contracts for custom event scanning and Single Token Earn Opportunity POC.</li>
+    <li><span class="tag tag-cost">Optimization</span> Minimized DB calls in <code>okto-onboarding-service</code>; identified singleton anti-pattern risk in performance-critical path.</li>
+    <li><span class="tag tag-reliability">Bug Fix</span> Addressed security vulnerabilities in the onboarding service. <span class="rating rating-3">3/5 Self</span></li>
+    <li><span class="tag tag-feature">R&D</span> Performed R&D on <code>okto-scanner-service</code> for better client experience; explored custom event smart contracts.</li>
+  </ul>
+
+  <h3>Cycle 2: Apr '23 — Sep '23 <span class="period">(SDE, Data Platform)</span></h3>
+  <ul class="achievement-list">
+    <li><span class="tag tag-feature">Onboarding</span> Initiated & delivered DeFi protocol onboarding: UniswapV3, UniswapV2, QLP farming_staking, ZKsync, Ankr, Stader. Set new benchmark for farming_staking with data cleanup scripting. <span class="rating rating-5">5/5 Mgr</span></li>
+    <li><span class="tag tag-feature">Feature</span> Delisting Changes on Admin Backend — delivered ahead of schedule; identified corner cases; wrote QA test cases. <span class="rating rating-5">5/5 Mgr</span></li>
+    <li><span class="tag tag-cost">Automation</span> Built Cron task for automatic pool onboarding in the listing optimization initiative; fixed onboarding service dependencies.</li>
+    <li><span class="tag tag-reliability">Tech Debt</span> Addressed tech debts across Admin backend and Onboarding; documented complete configuration guide; explored VALHA platform.</li>
+    <li><span class="tag tag-feature">Feature</span> Added ZKsync network support on Scanner; developed rewards claim event tracking for Ankr. <span class="rating rating-4">4/5 Mgr</span></li>
+  </ul>
+
+  <h3>Cycle 3: Oct '23 — Mar '24 <span class="period">(SDE, Data Platform)</span></h3>
+  <ul class="achievement-list">
+    <li><span class="tag tag-cost">Cost Optimization</span> Revamped Blockchain Scanner Service: <span class="metric-highlight">reduced RPC calls by 3x</span> per network; <span class="metric-highlight">optimized processor costs by 10x</span>. Integrated APIs, monitoring, admin access for new scanner. <span class="rating rating-4">4/5 Mgr</span></li>
+    <li><span class="tag tag-reliability">Reliability</span> Implemented auto-healing across all DP services; enabled Tracer + Axios updates; implemented respawning consumers; streamlined monitoring. <span class="rating rating-4">4/5 Mgr</span></li>
+    <li><span class="tag tag-arch">Ownership</span> Took full ownership of Admin Dashboard as POC & mentor; integrated Old Poller + New Scanner APIs; implemented Token Group CRUD state/status handling. <span class="rating rating-4">4/5 Mgr</span></li>
+    <li><span class="tag tag-feature">Simplification</span> Delivered Onboarding CRUD APIs; onboarded EVM networks for platform simplification.</li>
+    <li><span class="tag tag-feature">POC</span> Solana pricing POC — identified swaps for token pricing; built swap pair filtering for downstream pricing. <span class="rating rating-3">3/5 Mgr</span></li>
+    <li><span class="tag tag-incident">Bug Fix</span> Resolved Bridge Token Depegging issue and incorrect boostApy production bug.</li>
+  </ul>
+
+  <h3>Cycle 4: Apr '24 — Sep '24 <span class="period">(SDE, Scanner & GSN)</span></h3>
+  <ul class="achievement-list">
+    <li><span class="tag tag-feature">Solana</span> Expanded Solana on Scanner: swap pair filtering for Orca & Radium; decoded Solana instructions for token price estimation; zero-error onboarding. <span class="rating rating-4">4/5 Mgr</span></li>
+    <li><span class="tag tag-reliability">Reliability</span> Scanner reliability overhaul: RCA & fixed Solana missed blocks; removed GBL dependency; refactored Scanner-COSMOS for direct RPC calls. <span class="metric-highlight">Reduced errors to near-zero.</span> <span class="rating rating-4">4/5 Mgr</span></li>
+    <li><span class="tag tag-incident">RCA</span> APTOS chain fix: RCA & R&D on missing transactions (API 100-txn limit); expanded scanning limit beyond 100.</li>
+    <li><span class="tag tag-feature">Enhancement</span> Integrated UserMapping component; cleaned redundant Kafka messages; added unauthorized IP access alerts and monitoring; extended Scanner APIs to Admin Dashboard. <span class="rating rating-4">4/5 Mgr</span></li>
+    <li><span class="tag tag-arch">Architecture</span> <strong>Designed & built GSN V2 service autonomously</strong> — framed architecture, software design patterns, documented everything. Manager: <em>"Moved a complex project autonomously, showcasing great ownership."</em> <span class="rating rating-4">4/5 Mgr</span></li>
+    <li><span class="tag tag-mentoring">Learning</span> OTEL integration support; POC for on-chain scanner calls; explored extensive Go libraries (otel, blockchain, mocktesting). <span class="rating rating-5">5/5 Mgr</span></li>
+  </ul>
+
+  <h3>Cycle 5: Oct '24 — Mar '25 <span class="period">(SDE, Platform)</span></h3>
+  <ul class="achievement-list">
+    <li><span class="tag tag-arch">Architecture</span> <strong>GSN V2 production deployment & 100% adoption.</strong> <span class="metric-highlight">50% reduced service latency</span> (150% of planned SLO). Deprecated GSN V1.</li>
+    <li><span class="tag tag-feature">Automation</span> Token Auto Listing/Delisting automation — high-volume listing within minutes. Kill switch <span class="metric-highlight">critical during pump.fun incident</span>. Audit logs API for backend operations.</li>
+    <li><span class="tag tag-feature">Feature</span> Zero Gas Fees feature across GSN v1/v2 — sponsorship limits, SVM/EVM segregation, multi-layer caching, Solana deposit edge cases.</li>
+    <li><span class="tag tag-reliability">SLA</span> Fixed frequent GBL 5xx errors for EVM orders; improved GSN v2 SLAs/SLOs; reduced provider timeouts.</li>
+    <li><span class="tag tag-incident">On-Call</span> Exceptional on-call: <span class="metric-highlight">&lt;0 min MTTA & MTTR</span>; highest CRT volume (18 tickets); 15 QA bugs resolved; 3 dev-end bugs identified. Authored fund migration SOPs.</li>
+    <li><span class="tag tag-incident">Bug Fix</span> Fixed sprint-long Solana disputed orders bug (successful on-chain but disputed state via Helius/QuickNode).</li>
+    <li><span class="tag tag-feature">ULL</span> Scanner for ULL: event listeners for fungible tokens, escrow/filler/settlement/JobManager contracts; updated event parsing for new contracts.</li>
+    <li><span class="tag tag-feature">Feature</span> IRS (Intent Resolver Service) development: SVM order support, nonce address handling, DTN signatures, Grafana dashboards.</li>
+    <li><span class="tag tag-mentoring">Common Libraries</span> Led implementation of common logger & secret management libraries across 6+ Go services (Scanner, GSN, Pricing, Dapp, Nonce, Swap). Deployed all to production in a 2-day window. Coordinated DevOps for infra branch access.</li>
+    <li><span class="tag tag-arch">GSN V2 PRs</span> Authored 12+ GSN PRs: WhitelistedTokens migration, DAPP API integration, caching for CWAddresses/DQL/GBL, SVM rent case, native deposition fee, user export private key check, response structure refactoring.</li>
+  </ul>
+
+  <h3>Cycle 6: Apr '25 — Oct '25 <span class="period">(SSE-1, Platform) | Self: 4.2/5 | Manager: 3.95/5</span></h3>
+  <ul class="achievement-list">
+    <li><span class="tag tag-arch">Architecture</span> <strong>Config-based Scanner redesign</strong> — designed LLD, implemented network-level deployment configurability. Dense/unstable networks now poll and process independently without impacting others. <span class="metric-highlight">100% test coverage</span> for scanner. <span class="rating rating-5">5/5 Self | 4/5 Mgr</span></li>
+    <li><span class="tag tag-cost">Cost Optimization</span> <strong>GBL Resource Optimization</strong> — <span class="metric-highlight">~50% reduction in CPU utilization</span> and memory allocation with measurable cost savings based on txn traffic per network. <span class="rating rating-5">5/5 Self | 4/5 Mgr</span></li>
+    <li><span class="tag tag-feature">Feature</span> <strong>EIP-1559 Type 2 Transaction Support</strong> — implemented across GSN, Swap, and Dapp services with backward compatibility. <span class="metric-highlight">98% test coverage</span> for Type2, <span class="metric-highlight">97% for off-chain IRS</span>. Major reduction in HyperEVM order failures due to fluctuating gas. <span class="rating rating-5">5/5 Self | 4/5 Mgr</span></li>
+    <li><span class="tag tag-feature">Feature</span> <strong>Okto Chain SVM Support (35 SP epic)</strong> — expanded IRS for Solana chain transactions: nonce address queues, txn hex creation, messaging mechanism with complex DB queries. Delivered with minimal order failure rate and zero reported bugs. <span class="rating rating-5">5/5 Self | 4/5 Mgr</span></li>
+    <li><span class="tag tag-feature">POC</span> <strong>DTN Signature POC (EIP-712/EIP-191)</strong> — validated new signature standards with cross-functional teams. Adopted for future txn validations post Okto Chain deprecation. De-risked initiatives, saved significant discovery time.</li>
+    <li><span class="tag tag-arch">Architecture</span> <strong>Reusable Decoder/Encoder Module in IRS</strong> — designed for on-chain and off-chain intents to prevent code duplication. Manager: <em>"a valuable asset to the codebase and cross-functional teams."</em></li>
+    <li><span class="tag tag-feature">Feature</span> <strong>Zero Gas Fees (GSN v1)</strong> — supported sponsorship orders with network/amount limitations; multi-layer caching immediately adapted by team. <strong>Token Auto Listing/Delisting</strong> in DMS with audit logging on Admin Dashboard.</li>
+    <li><span class="tag tag-feature">Feature</span> <strong>APTOS New Fungible Token Standard</strong> — integrated new token standard handling for fungible and non-fungible assets; HyperScan API for fluctuating gas prices.</li>
+    <li><span class="tag tag-reliability">Reliability</span> <strong>Scanner Reliability TRD & KT</strong> — authored phase-wise reliability improvements. Reduced errLogs on Okto chain networks to 0% for blocks not found. Built Grafana dashboard for IRS.</li>
+    <li><span class="tag tag-arch">Architecture</span> <strong>GSN v2 LLD with Zero Gas Integration</strong> — authored detailed LLD ahead of project kickoff aligning team and accelerating development. Revamped GSN v2 data flow. <span class="rating rating-4">4/5 Mgr</span></li>
+    <li><span class="tag tag-mentoring">Collaboration</span> <strong>Cross-functional partnership</strong> — initiated pre-deployment syncs with DevOps preventing production rollback for IRS/GSN. QA coordination caught critical bugs. <span class="metric-highlight">93% office attendance (4+ days/week vs 2-3 expected)</span>. <span class="metric-highlight">9/10 stories delivered on communicated timeline</span>. <span class="rating rating-5">5/5 Self | 4/5 Mgr</span></li>
+    <li><span class="tag tag-mentoring">Talent</span> Conducted SDE-3 interviews with 100% feedback within 24hrs SLA. Authored standardized TRDs for Scanner + API contracts for IRS, AD, GSN. <span class="rating rating-3">3/5 Mgr</span></li>
+    <li><span class="tag tag-security">Security</span> Fixed 50+ lint and code vulnerabilities across multiple Node.js services. Integrated Sonar for test case coverage.</li>
+  </ul>
+
+  <h3>Cycle 7: Oct '25 — Mar '26 <span class="period">(SSE-1, Platform — Current)</span></h3>
+  <ul class="achievement-list">
+    <li><span class="tag tag-arch">System Design</span> <strong>Automated System Health Banner (HUD)</strong>: designed scalable architecture for automated user notifications on system/network degradation. End-to-end with Redis, Kafka, SQS, Cron jobs. Authored detailed TRDs & POCs on 4 fronts. Reviewed & acknowledged by staff engineers and managers.</li>
+    <li><span class="tag tag-arch">TRD</span> <strong>CereBRO (Agentic Wallets) TRD</strong>: authored Technical Requirements Document covering 4-tier agent hierarchy, 15-state trade lifecycle, full architecture.</li>
+    <li><span class="tag tag-incident">Incident Response</span> Authored multiple RCAs: Scanner-Poller Panic (SEV-0), Order Failure Incidents (signing service connectivity loss, AWS VPC CNI crash), Solana SWAP estimation failures (QuickNode getTokenAccountsByOwner latency), QuickSwap/Jupiter stale data errors. <span class="metric-highlight">Led war rooms and coordinated cross-team response.</span></li>
+    <li><span class="tag tag-feature">Fix</span> Price Impact fix for DeFi Swaps (INR_TO_CRYPTO incorrect token display); PnL RCA for inactive tokens. Identified and fixed token 2022 slippage issue with Jupiter team (errorCode 6001/6036/6038).</li>
+    <li><span class="tag tag-cost">Optimization</span> Log & cost optimization Phase 2 in GSN v2; ingested log exclusion and vulnerability removal across 5 services (nonce, swap, dapp, irs-oe, blockchain-layer). <span class="metric-highlight">Dapp middleware logs reduced to 5% sampling.</span></li>
+    <li><span class="tag tag-reliability">Reliability</span> Scanner Solana Poller error handling fixes (SNS-SQS); Poller panic recovery; added alerts for panic error logs, SQS/Kafka health, and block lag monitoring (>20 blocks). Poller consumers scaled to 15.</li>
+    <li><span class="tag tag-arch">Architecture</span> <strong>Automated System Health HUD</strong>: authored 27-revision TRD (with LLD review) for automated banner on network degradation; led design reviews with broader DeFi team. Designed event-driven health status with Redis, Kafka, SQS, Cron.</li>
+    <li><span class="tag tag-feature">HyperEVM</span> Deployed and validated HyperEVM chain across Scanner, GBL, Dapp, and GSN. Identified Gluex aggregator API as root cause for HyperEVM swap failures. Activated base/stable tokens for testing.</li>
+    <li><span class="tag tag-mentoring">Production Ops</span> Coordinated deployments across <span class="metric-highlight">6+ services simultaneously</span> via eCMRs; managed vulnerability fixes unblocking team deployments. Deployed GSN V2 on production with new logger packages.</li>
+  </ul>
+</div>
+
+<!-- ==================== RESUME TAB ==================== -->
+<div id="resume" class="tab-content">
+  <h2>Resume-Style Bullet Points</h2>
+
+  <div class="resume-section">
+    <h3>Cost Optimization & Efficiency</h3>
+    <ul>
+      <li>Achieved <strong>$4k+ reduction in AWS logs costs</strong> (Phase 1) by designing structured JSON logging schema with standardized error codes, log-level routing, and context propagation — adopted by all Go microservices across the platform.</li>
+      <li>Revamped the blockchain scanner microservice processor, achieving a <strong>10x cost reduction</strong> and <strong>3x reduction in RPC calls</strong> per network by optimizing Kafka consumer batching, PostgreSQL bulk upserts, and Redis caching layers.</li>
+      <li>Delivered Gas Station Network (GSN) V2 system with <strong>50% reduced service latency</strong> (150% of planned SLO target), now at 100% adoption. Built with Go, PostgreSQL, Redis multi-layer caching, and SQS-based async processing.</li>
+      <li>Optimized the blockchain interaction layer resources achieving <strong>~50% reduction in CPU utilization</strong> and memory allocation through connection pooling, goroutine management, and RPC request deduplication based on per-network txn traffic.</li>
+      <li>Reduced provider timeouts in the blockchain interaction layer for Ethereum JSON-RPC calls; resolved frequent 5xx errors for EVM order execution improving platform SLAs.</li>
+    </ul>
+  </div>
+
+  <div class="resume-section">
+    <h3>Architecture & System Design</h3>
+    <ul>
+      <li><strong>Designed and developed the Gas Station Network (GSN) V2 system end-to-end autonomously</strong> in Go — applying factory and strategy patterns, Redis caching with TTL-based invalidation, PostgreSQL for state management, and SQS for async gas estimation — enabling faster feature delivery and multi-chain coverage.</li>
+      <li>Designed scalable event-driven architecture for <strong>Automated System Health HUD</strong> using Redis pub/sub for real-time state, Kafka for event streaming, SQS for notification delivery, and Cron-based health polling. Authored TRDs and data-backed POCs on 4 fronts. Acknowledged by staff engineers.</li>
+      <li>Authored Technical Requirements Document for <strong>CereBRO (Agentic Wallets)</strong> covering 4-tier agent hierarchy and 15-state trade lifecycle.</li>
+      <li>Implemented common logger (structured JSON with Logrus) and secret management (AWS Secrets Manager with PII masking) Go libraries across all platform microservices in a 2-day window, adopted as org-wide benchmark.</li>
+      <li>Took full ownership of the admin dashboard microservice (Node.js/TypeScript) — integrated legacy poller + new scanner REST APIs, implemented Token Group CRUD with PostgreSQL state management and Redis-backed session handling.</li>
+    </ul>
+  </div>
+
+  <div class="resume-section">
+    <h3>Automation & Feature Delivery</h3>
+    <ul>
+      <li>Built <strong>token auto listing/delisting automation</strong> using DynamoDB for config state, Kafka event triggers, and Redis cache invalidation — reducing manual ops from hours to minutes. Implemented kill switch critical during pump.fun breaking changes incident.</li>
+      <li>Delivered <strong>Zero Gas Fees feature</strong> across Gas Station Network v1/v2 with sponsorship limits, SVM/EVM chain segregation, and Redis multi-layer caching with PostgreSQL-backed state tracking.</li>
+      <li>Implemented <strong>EIP-1559 (Type 2) transaction support</strong> across Gas Station Network, swap, and DApp integration microservices with 98% test coverage, significantly increasing HyperEVM order success rates.</li>
+      <li>Expanded Solana (SVM) support on the blockchain scanner microservice: Jupiter/Orca/Radium swap pair filtering, Solana instruction decoding via custom Go parsers, zero-error token onboarding.</li>
+      <li>Delivered <strong>35 SP Okto Chain epic</strong>: SVM transaction orchestration in the intent resolver microservice, DTN signatures (EIP-712/191), ULL event parsing via Kafka consumers, off-chain intent resolution — zero reported bugs.</li>
+      <li>Onboarded 6+ DeFi protocols (UniswapV3, V2, QLP, ZKsync, Ankr, Stader), APTOS new fungible token standard, and EVM networks with smart contract event indexing.</li>
+      <li>Designed reusable <strong>Decoder/Encoder module</strong> in the intent resolver microservice (Go) for on-chain and off-chain intents using interface-driven design, preventing code duplication across 3 downstream microservices.</li>
+      <li>Enabled HyperEVM chain support across blockchain scanner, blockchain interaction layer, DApp integration, and Gas Station Network microservices with HyperScan REST API integration for dynamic gas price estimation.</li>
+    </ul>
+  </div>
+
+  <div class="resume-section">
+    <h3>Reliability & Incident Response</h3>
+    <ul>
+      <li>Maintained <strong>&lt;0 min MTTA and MTTR</strong> during on-call rotations using Grafana alerting and Datadog APM; handled highest CRT volume (18 tickets) in a cycle with 15 QA bugs resolved.</li>
+      <li>Authored <strong>7+ Root Cause Analyses</strong> including SEV-0 scanner poller panic (Go goroutine crash), AWS VPC CNI plugin crash, Solana SWAP estimation failures (QuickNode RPC latency), signing service connectivity loss, Jupiter aggregator stale data errors (errorCode 6036/6038).</li>
+      <li>Active responder in <strong>60+ production incidents</strong> — diagnosed failures via Grafana dashboards, Datadog distributed traces, and CloudWatch metrics; coordinated fixes with Jupiter, QuickNode, and AWS support teams.</li>
+      <li>Implemented auto-healing with Kafka consumer respawning, OpenTelemetry (OTEL) tracing integration, and Axios retry middleware across all data platform microservices.</li>
+      <li>Fixed critical production bugs: Solana missed blocks (SQS consumer offset), APTOS 100-txn API pagination limit, disputed orders (Helius/QuickNode webhook inconsistency), Bridge Token depegging, token 2022 slippage (Jupiter v2 instructions), Gas Station Network v2 inclusive deposit consolidation.</li>
+      <li>Addressed 50+ Snyk/lint vulnerabilities across 6-8 Node.js microservices; integrated SonarQube for automated test coverage gating; maintained security posture across all Go microservices.</li>
+    </ul>
+  </div>
+
+  <div class="resume-section">
+    <h3>Quality & Test Coverage</h3>
+    <ul>
+      <li>Achieved <strong>98% test coverage for Type 2 transactions</strong>, <strong>100% for config-based scanner</strong>, and <strong>97% for off-chain intent resolver</strong> using Go table-driven tests and mock interfaces — consistently exceeding the team's 95% target.</li>
+      <li>Near-zero post-deployment bugs across all major feature releases; Go unit + integration test suites became a team benchmark for quality.</li>
+      <li>Designed thread-safe, generic multi-layer caching module (Redis L1 + in-memory L2 with sync.RWMutex) immediately adopted by other microservices, improving read latency ecosystem-wide.</li>
+    </ul>
+  </div>
+
+  <div class="resume-section">
+    <h3>Leadership, Mentoring & Documentation</h3>
+    <ul>
+      <li>Authored <strong>44 Confluence documents</strong> spanning TRDs, RCAs, API contracts, POCs, Kafka event schemas, and microservice onboarding guides.</li>
+      <li>Authored/shepherded <strong>43+ Pull Requests across 12 repositories</strong> (GitHub & Bitbucket) spanning Go, Node.js/TypeScript, and Java codebases.</li>
+      <li>Completed <strong>11 technical spikes</strong>: Gas Station Network refactoring, scanner reliability, intent resolver SVM integration, structured logging, Solana pricing, protocol exploration.</li>
+      <li>Resolved <strong>50 bugs (34 closed)</strong> including 12 P0 and 29 P1 issues across microservices built on Go, Node.js, PostgreSQL, Redis, Kafka, and DynamoDB.</li>
+      <li>Mentored team members on blockchain scanner & Gas Station Network microservices with clean handover documentation, Grafana dashboard setup guides, and Kafka topic schemas.</li>
+      <li>Led design review calls, organized KT sessions, and drove cross-functional alignment with QA, Product, and DevOps teams on deployment pipelines and infrastructure.</li>
+      <li>Conducted SDE-3 interviews with <strong>100% feedback submitted within 24 hours</strong> (against 48-hour SLA).</li>
+      <li>Maintained <strong>93% office attendance (4+ days/week)</strong> vs 2-3 expected; delivered <strong>9/10 stories on communicated timeline</strong>.</li>
+      <li>Contributed <strong>2,940+ commits across 16 repositories</strong> (108K+ lines added, 71K removed) spanning Go, Node.js/TypeScript, Java, and Solidity — backed by PostgreSQL, MongoDB, DynamoDB, Redis, Kafka, SQS/SNS, and Grafana/Datadog observability.</li>
+      <li>Progressed from Intern to Senior Software Engineer - 1 in 3 years with consistently high performance ratings (overall 3.95-4.2/5 manager ratings).</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ==================== THEMES TAB ==================== -->
+<div id="themes" class="tab-content">
+  <h2>Achievements by Theme</h2>
+
+  <div class="theme-group">
+    <div class="theme-header">
+      <span class="icon">&#9889;</span>
+      <h3>Cost Optimization & Performance</h3>
+      <span class="count">10 achievements</span>
+    </div>
+    <ul class="achievement-list">
+      <li><span class="tag tag-cost">Phase 1 & 2</span> Log Improvement & Cost Optimization: $4k+ AWS logs cost reduction; structured JSON logging with Logrus adopted by all Go microservices (Oct '25)</li>
+      <li><span class="tag tag-cost">10x</span> Scanner processor cost reduction via optimization (Oct '23 - Mar '24)</li>
+      <li><span class="tag tag-cost">3x</span> RPC calls reduction per network in Scanner (Oct '23 - Mar '24)</li>
+      <li><span class="tag tag-cost">50%</span> GSN V2 service latency reduction — 150% of planned SLO (Oct '24 - Mar '25)</li>
+      <li><span class="tag tag-cost">50% CPU</span> Blockchain interaction layer resource optimization: ~50% CPU utilization reduction via connection pooling and goroutine management (Apr '25)</li>
+      <li><span class="tag tag-cost">DB Calls</span> Minimized database calls in onboarding service (Feb '23)</li>
+      <li><span class="tag tag-cost">RPC</span> Fixed frequent 5xx errors in blockchain interaction layer, reduced Ethereum JSON-RPC provider timeouts for EVM orders (Oct '24)</li>
+      <li><span class="tag tag-cost">Logging</span> Structured JSON logging with Logrus, context propagation, and log-level routing across all Go microservices (Oct '25)</li>
+      <li><span class="tag tag-cost">Kafka</span> Cleaned redundant Kafka messages between scanner-aggregator and scanner-portfolio (Apr '24)</li>
+      <li><span class="tag tag-cost">Gas Price</span> HyperScan API integration for gas fluctuations — major reduction in HyperEVM order failures (Apr '25)</li>
+    </ul>
+  </div>
+
+  <div class="theme-group">
+    <div class="theme-header">
+      <span class="icon">&#127959;</span>
+      <h3>Architecture & System Design</h3>
+      <span class="count">10 achievements</span>
+    </div>
+    <ul class="achievement-list">
+      <li><span class="tag tag-arch">GSN V2</span> Designed & built entire Gas Station Network V2 service autonomously with software design patterns (Apr '24 - Sep '24)</li>
+      <li><span class="tag tag-arch">Health HUD</span> Automated System Health Banner architecture with Redis, Kafka, SQS, Cron. 4 POCs, TRDs acknowledged by staff engineers (Oct '25 - Mar '26)</li>
+      <li><span class="tag tag-arch">CereBRO</span> Authored TRD for Agentic Wallets: 4-tier agent hierarchy, 15-state trade lifecycle (Mar '26)</li>
+      <li><span class="tag tag-arch">Libraries</span> Common Logger (Logrus/JSON) & Secret Management (AWS Secrets Manager) Go libraries for all microservices — 2-day delivery, adopted as org benchmark (Oct '25)</li>
+      <li><span class="tag tag-arch">Config Scanner</span> Config-based Scanner redesign for network-level deployments — dense/unstable networks isolated, 100% test coverage (Apr '25)</li>
+      <li><span class="tag tag-arch">Decoder/Encoder</span> Reusable Decoder/Encoder module in IRS for on-chain and off-chain intents; prevents code duplication (Apr '25)</li>
+      <li><span class="tag tag-arch">GSN v2 LLD</span> Authored GSN v2 Zero Gas LLD ahead of project kickoff, aligning team and accelerating development (Apr '25)</li>
+      <li><span class="tag tag-arch">Scanner</span> Revamped blockchain scanner architecture: removed blockchain interaction layer dependency, direct JSON-RPC calls, config-based approach (Apr '24)</li>
+      <li><span class="tag tag-arch">IRS</span> Built SVM support in Intent Resolver Service: nonce handling, DTN signatures (EIP-712/191), Grafana dashboards (Mar '25)</li>
+      <li><span class="tag tag-arch">AD Ownership</span> Admin Dashboard: integrated Old Poller + New Scanner APIs, Token Group CRUD state management (Oct '23)</li>
+    </ul>
+  </div>
+
+  <div class="theme-group">
+    <div class="theme-header">
+      <span class="icon">&#128640;</span>
+      <h3>Feature Delivery & Blockchain Support</h3>
+      <span class="count">14 achievements</span>
+    </div>
+    <ul class="achievement-list">
+      <li><span class="tag tag-feature">Type 2 Txn</span> EIP-1559 Type 2 transaction support across GSN, Swap, Dapp — 98% test coverage, major HyperEVM order success increase (Apr '25)</li>
+      <li><span class="tag tag-feature">Okto Chain</span> 35 SP epic: SVM transactions in IRS, DTN signatures, ULL event parsing, off-chain CIS&lt;&gt;IRS — zero reported bugs (Apr '25)</li>
+      <li><span class="tag tag-feature">Automation</span> Token auto listing/delisting — high-volume, minutes not hours. Kill switch for pump.fun (Oct '24)</li>
+      <li><span class="tag tag-feature">Zero Gas</span> Zero Gas Fees across GSN v1/v2 with sponsorship, SVM/EVM segregation, multi-layer caching (Oct '24)</li>
+      <li><span class="tag tag-feature">Solana</span> Expanded Solana support: Orca & Radium swap filtering, instruction decoding, zero-error onboarding (Apr '24)</li>
+      <li><span class="tag tag-feature">APTOS</span> New APTOS fungible token standard integration for user transactions (Apr '25)</li>
+      <li><span class="tag tag-feature">DTN POC</span> DTN signature validation POC (EIP-712/191) — adopted for future txn validations; de-risked SVM integration (Apr '25)</li>
+      <li><span class="tag tag-feature">Onboarding</span> 6+ DeFi protocols: UniswapV3, V2, QLP, ZKsync, Ankr, Stader (Apr '23 - Sep '23)</li>
+      <li><span class="tag tag-feature">ULL</span> Scanner ULL events: fungible tokens, escrow/filler/settlement/JobManager contracts (Mar '25)</li>
+      <li><span class="tag tag-feature">HyperEVM</span> HyperEVM chain support across scanner, blockchain interaction layer, DApp integration, Gas Station Network microservices with HyperScan API (Jun '25)</li>
+      <li><span class="tag tag-feature">Simplification</span> Okto Platform Simplification: Onboarding CRUD APIs, EVM network onboarding (Oct '23)</li>
+      <li><span class="tag tag-feature">Delisting</span> Admin backend delisting changes — delivered ahead of schedule (Apr '23)</li>
+      <li><span class="tag tag-feature">Cron</span> Automated pool onboarding via Cron task for listing optimization (Sep '23)</li>
+      <li><span class="tag tag-feature">Smart Contracts</span> Custom Solidity smart contracts, staking provider analysis, Single Token Earn POC (Feb '23)</li>
+    </ul>
+  </div>
+
+  <div class="theme-group">
+    <div class="theme-header">
+      <span class="icon">&#128737;</span>
+      <h3>Reliability, Incidents & On-Call</h3>
+      <span class="count">14 achievements</span>
+    </div>
+    <ul class="achievement-list">
+      <li><span class="tag tag-incident">On-Call</span> &lt;0 min MTTA/MTTR; highest CRT volume (18 tickets); 15 QA bugs; 3 dev-end bugs (Oct '24 - Mar '25)</li>
+      <li><span class="tag tag-incident">RCAs</span> Authored 7+ RCAs: SEV-0 Scanner-Poller Panic, AWS VPC CNI crash, signing service connectivity, Solana SWAP estimation (QuickNode latency), Jupiter stale data (6036/6038), QuickSwap errors (Oct '25 - Apr '26)</li>
+      <li><span class="tag tag-incident">Incidents</span> Active responder in 60+ production incidents: diagnosed failures via Grafana/Datadog traces, coordinated with Jupiter, QuickNode, and AWS teams (2025-2026)</li>
+      <li><span class="tag tag-reliability">Auto-heal</span> Auto-healing, Tracer, Axios updates, respawning consumers across all DP services (Oct '23)</li>
+      <li><span class="tag tag-incident">Solana</span> Fixed Solana missed blocks via RCA; reduced errors to near-zero (Apr '24)</li>
+      <li><span class="tag tag-incident">APTOS</span> Fixed APTOS missing txns (100-txn API limit) via RCA & R&D (Apr '24)</li>
+      <li><span class="tag tag-incident">Disputed</span> Fixed sprint-long Solana disputed orders bug (Helius/QuickNode) (Oct '24)</li>
+      <li><span class="tag tag-incident">Slippage</span> Identified token 2022 slippage issue with Jupiter team; implemented v2 instructions fix via eCMR (Jan '26)</li>
+      <li><span class="tag tag-incident">GSN Fix</span> Fixed GSN v2 inclusive deposit consolidation bug on production (Dec '25)</li>
+      <li><span class="tag tag-incident">Bridge</span> Resolved Bridge Token depegging and boostApy production bugs (Oct '23)</li>
+      <li><span class="tag tag-security">Security</span> 50+ Snyk/lint vulnerabilities fixed across scanner, Gas Station Network, blockchain interaction layer, intent resolver, swap, DApp integration, nonce microservices (Apr '25)</li>
+      <li><span class="tag tag-reliability">RPC Layer</span> Fixed frequent blockchain interaction layer 5xx errors for EVM; improved SLAs/SLOs (Oct '24)</li>
+      <li><span class="tag tag-reliability">Monitoring</span> Added alerts for panic logs, SQS/Kafka health, block lag (&gt;20 blocks), signing service disconnection (Mar '26)</li>
+      <li><span class="tag tag-reliability">War Room</span> Led incident war rooms coordinating DeFi, DevOps, and AWS teams for multi-service outages (Apr '26)</li>
+    </ul>
+  </div>
+
+  <div class="theme-group">
+    <div class="theme-header">
+      <span class="icon">&#127891;</span>
+      <h3>Leadership, Mentoring & Growth</h3>
+      <span class="count">11 achievements</span>
+    </div>
+    <ul class="achievement-list">
+      <li><span class="tag tag-mentoring">Docs</span> 44 Confluence documents: TRDs, RCAs, API contracts, POCs, event schemas, onboarding guides (2023-2026)</li>
+      <li><span class="tag tag-mentoring">PRs</span> 43+ PRs authored/shepherded across 12 repos (GitHub & Bitbucket), coordinated reviews via #devs-platform-pr-review and #dp_pr_approvers channels</li>
+      <li><span class="tag tag-mentoring">Spikes</span> 11 technical spikes completed: GSN refactoring, Scanner reliability, IRS SVM integration, logs structuring, Solana pricing, Valha exploration (2023-2026)</li>
+      <li><span class="tag tag-mentoring">Mentoring</span> Mentored team on Scanner & GSN; clean service handovers; deployment PRs used as reference (Apr '25)</li>
+      <li><span class="tag tag-mentoring">Design Reviews</span> Led design review calls, KT sessions (US Stocks, GSN, Scanner), cross-functional alignment with QA, Product, DevOps (Oct '25 - Mar '26)</li>
+      <li><span class="tag tag-mentoring">Common Libs</span> Led common logger & secret management library rollout across 6+ services; coordinated with DevOps for infra branch access; workshop sessions for Node.js teams</li>
+      <li><span class="tag tag-mentoring">Career</span> Intern → SDE → Senior Software Engineer - 1 in 3 years (Feb '23 - present)</li>
+      <li><span class="tag tag-mentoring">Learning</span> Go libraries (otel, blockchain, mocktesting), software design patterns, Solidity, web3 training (continuous)</li>
+      <li><span class="tag tag-mentoring">SOPs</span> Authored fund migration SOPs, incident response documentation, deployment plans (Oct '24)</li>
+      <li><span class="tag tag-mentoring">Tooling</span> Championed developer productivity tooling adoption in team; trained teammates on efficient debugging and code generation workflows (Oct '25)</li>
+      <li><span class="tag tag-mentoring">Slack</span> Active presence across 8+ engineering channels: incident response, PR reviews, squad coordination, library implementation</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ==================== TOP 10 TAB ==================== -->
+<div id="top10" class="tab-content">
+  <h2>Top 10 Career-Defining Achievements</h2>
+
+  <div class="top10-card">
+    <div class="top10-rank">#1</div>
+    <div class="top10-body">
+      <h4>GSN V2: Architecture, Development & 100% Production Adoption</h4>
+      <p>Designed and built the entire Gas Station Network V2 service autonomously using software design patterns. Achieved 100% production adoption with 50% reduced latency (150% of target SLO). Deprecated GSN V1 entirely. Documented everything end-to-end.</p>
+    </div>
+  </div>
+
+  <div class="top10-card">
+    <div class="top10-rank">#2</div>
+    <div class="top10-body">
+      <h4>Blockchain Scanner Revamp: 10x Cost Reduction, 3x RPC Reduction</h4>
+      <p>Revamped the blockchain scanner microservice — optimized processor costs by 10x via Kafka consumer batching and PostgreSQL bulk upserts, reduced RPC calls by 3x per network, removed blockchain interaction layer dependency, refactored COSMOS for direct RPC calls. 1,135 commits to this microservice alone.</p>
+    </div>
+  </div>
+
+  <div class="top10-card">
+    <div class="top10-rank">#3</div>
+    <div class="top10-body">
+      <h4>Log Optimization: $4k+ AWS Cost Savings & Org-Wide Benchmark</h4>
+      <p>Designed structured JSON logging schema with standardized error codes, log-level routing, and context propagation across all Go microservices. Recorded $4k+ in AWS logs cost reduction in Phase 1. Design adopted as org-wide benchmark.</p>
+    </div>
+  </div>
+
+  <div class="top10-card">
+    <div class="top10-rank">#4</div>
+    <div class="top10-body">
+      <h4>Automated System Health HUD: Scalable Architecture Design</h4>
+      <p>Designed end-to-end scalable architecture for automated user notification banners during system/network degradation. Redis + Kafka + SQS + Cron jobs. Authored TRDs and data-backed POCs on 4 fronts. Reviewed and acknowledged by staff engineers across teams.</p>
+    </div>
+  </div>
+
+  <div class="top10-card">
+    <div class="top10-rank">#5</div>
+    <div class="top10-body">
+      <h4>Token Auto Listing/Delisting Automation & Kill Switch</h4>
+      <p>Built automation enabling high-volume token listing/delisting within minutes (previously manual ops). Kill switch was critical during the pump.fun breaking changes incident. Added audit logs API and reduced ops dependency entirely.</p>
+    </div>
+  </div>
+
+  <div class="top10-card">
+    <div class="top10-rank">#6</div>
+    <div class="top10-body">
+      <h4>Common Libraries: Secret Management & Logging in 2 Days</h4>
+      <p>Implemented common logger (structured JSON with Logrus) and secret management (AWS Secrets Manager with PII masking) Go libraries across all platform microservices in a 2-day window. Adopted as org-wide benchmark. Error-free deployment across all microservices.</p>
+    </div>
+  </div>
+
+  <div class="top10-card">
+    <div class="top10-rank">#7</div>
+    <div class="top10-body">
+      <h4>Exceptional On-Call: &lt;0 min MTTA/MTTR, Highest CRT Volume</h4>
+      <p>Maintained sub-zero-minute Mean Time to Acknowledge and Resolve. Handled highest CRT volume (18 tickets), resolved 15 QA bugs, identified 3 developer-end bugs. Authored SOPs and led incident war rooms.</p>
+    </div>
+  </div>
+
+  <div class="top10-card">
+    <div class="top10-rank">#8</div>
+    <div class="top10-body">
+      <h4>Solana Expansion: Orca, Radium, Pricing, Zero-Error Onboarding</h4>
+      <p>Expanded Solana support on Scanner with swap pair filtering for Orca and Radium, instruction decoding for token price estimation, and zero-error token onboarding. Fixed Solana missed blocks and disputed orders bug.</p>
+    </div>
+  </div>
+
+  <div class="top10-card">
+    <div class="top10-rank">#9</div>
+    <div class="top10-body">
+      <h4>DeFi Protocol Onboarding: 6+ Protocols, New Benchmarks</h4>
+      <p>Initiated and delivered onboarding of UniswapV3, UniswapV2, QLP farming_staking, ZKsync, Ankr, and Stader. Set new benchmark for farming_staking onboarding with custom data cleanup scripting. Manager rated 5/5 (Exceptionally Over-Achieved).</p>
+    </div>
+  </div>
+
+  <div class="top10-card">
+    <div class="top10-rank">#10</div>
+    <div class="top10-body">
+      <h4>Career Growth: Intern to Senior Software Engineer in 3 Years</h4>
+      <p>Progressed from Intern (Feb '23) to Senior Software Engineer - 1 while contributing 2,940+ commits across 16 repositories (108K+ lines added), authoring 44 Confluence documents, responding to 60+ production incidents, and delivering 200+ Jira issues. Consistently rated Over-Achieved to Exceptionally Over-Achieved by managers.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== ONE-LINERS TAB ==================== -->
+<div id="oneliners" class="tab-content">
+  <h2>Resume One-Liners</h2>
+  <div class="oneliner-copy-hint">Each category distilled into 1&ndash;2 dense, metric-packed lines. Copy-paste ready for resumes and self-reviews.</div>
+
+  <div class="oneliner-group">
+    <h3>Architecture &amp; System Design</h3>
+    <ul class="oneliner-list">
+      <li>Designed &amp; built <strong>GSN V2</strong> autonomously (<span class="ol-metric">100% adoption, 50% latency cut</span>), architected <strong>config-based Scanner</strong> with per-network isolation (<span class="ol-metric">100% coverage</span>), and authored TRD for <strong>System Health HUD</strong> (Redis/Kafka/SQS) for real-time user notification on network degradation &mdash; adopted by staff engineers.</li>
+    </ul>
+  </div>
+
+  <div class="oneliner-group">
+    <h3>Cost Optimization &amp; Performance</h3>
+    <ul class="oneliner-list">
+      <li>Achieved <span class="ol-metric">10x processor cost</span> and <span class="ol-metric">3x RPC call reduction</span> on blockchain scanner via Kafka/PostgreSQL/Redis optimization, <span class="ol-metric">~50% CPU reduction</span> on blockchain interaction layer, and <span class="ol-metric">$4K+ AWS log savings</span> through structured JSON logging adopted by all Go microservices.</li>
+    </ul>
+  </div>
+
+  <div class="oneliner-group">
+    <h3>Feature Delivery &amp; Blockchain</h3>
+    <ul class="oneliner-list">
+      <li>Shipped <strong>EIP-1559 Type 2 txns</strong> (<span class="ol-metric">98% coverage</span>), <strong>35 SP Okto Chain SVM epic</strong> (zero bugs), <strong>Zero Gas Fees</strong>, and <strong>token auto listing/delisting</strong> (kill switch critical during pump.fun incident); expanded Solana (Orca/Radium), APTOS, HyperEVM chain support and onboarded <span class="ol-metric">6+ DeFi protocols</span>.</li>
+    </ul>
+  </div>
+
+  <div class="oneliner-group">
+    <h3>Reliability &amp; Incident Response</h3>
+    <ul class="oneliner-list">
+      <li>Responded to <span class="ol-metric">60+ production incidents</span> with <span class="ol-metric">&lt;0 min MTTA/MTTR</span> and highest CRT volume (<span class="ol-metric">18 tickets</span>); authored <span class="ol-metric">7+ RCAs</span> (SEV-0 Scanner Panic, AWS VPC CNI crash, Solana SWAP failures); implemented auto-healing, panic recovery, and proactive monitoring across all platform services.</li>
+    </ul>
+  </div>
+
+  <div class="oneliner-group">
+    <h3>Quality &amp; Engineering Excellence</h3>
+    <ul class="oneliner-list">
+      <li>Consistently exceeded team's 95% target &mdash; <span class="ol-metric">98% Type 2 txn</span>, <span class="ol-metric">100% Scanner</span>, <span class="ol-metric">97% IRS coverage</span>; shipped common logger &amp; secret management libraries org-wide in 2 days; resolved <span class="ol-metric">50 bugs (12 P0, 29 P1)</span> and <span class="ol-metric">50+ Snyk vulnerabilities</span> with Sonar enforcement.</li>
+    </ul>
+  </div>
+
+  <div class="oneliner-group">
+    <h3>Leadership &amp; Impact</h3>
+    <ul class="oneliner-list">
+      <li><span class="ol-metric">2,940+ commits</span> across 16 repos (<span class="ol-metric">108K+ lines</span>) in Go, Node.js, Java, Solidity backed by PostgreSQL, MongoDB, DynamoDB, Redis, Kafka, SQS/SNS; <span class="ol-metric">44 docs</span>, <span class="ol-metric">43+ PRs</span>, <span class="ol-metric">11 spikes</span>; Intern to SSE-1 in 3 years (<span class="ol-metric">3.95&ndash;4.2/5</span>); <span class="ol-metric">93% attendance</span>, <span class="ol-metric">100% interview feedback within 24hrs</span>.</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+function switchTab(tabId) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav-tabs button').forEach(b => b.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  event.target.classList.add('active');
+}
+
+const chartColors = {
+  accent: '#6c5ce7', accent2: '#00b894', accent3: '#fdcb6e',
+  accent4: '#e17055', accent5: '#74b9ff', accent6: '#a29bfe',
+  green: '#4ade80', teal: '#2dd4bf', pink: '#f472b6',
+  orange: '#fb923c', blue: '#60a5fa', purple: '#c084fc',
+};
+const gridColor = 'rgba(255,255,255,0.06)';
+const tickColor = '#8b92a8';
+
+Chart.defaults.color = tickColor;
+Chart.defaults.borderColor = gridColor;
+Chart.defaults.font.family = "'Inter', sans-serif";
+
+// 1. Commits by Repository (Horizontal Bar)
+new Chart(document.getElementById('chartRepoCommits'), {
+  type: 'bar',
+  data: {
+    labels: ['okto-scanner','okto-gsn','okto-admin','okto-dapp','okto-gbs','okto-data-agg','okto-swap','okto-dms','okto-gbl','okto-gas-station','okto-nonce','okto-data-query','okto-irs-oe','okto-bff','okto-fe','okto-exp-config'],
+    datasets: [{
+      label: 'Commits',
+      data: [1135,743,588,157,80,72,71,50,38,25,25,18,16,12,9,6],
+      backgroundColor: [chartColors.accent5, chartColors.accent, chartColors.accent2, chartColors.accent3, chartColors.accent4, chartColors.accent6, chartColors.teal, chartColors.pink, chartColors.orange, chartColors.blue, chartColors.green, chartColors.purple, '#94a3b8','#94a3b8','#94a3b8','#94a3b8'],
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    plugins: { legend: { display: false } },
+    scales: { x: { grid: { color: gridColor } }, y: { grid: { display: false } } }
+  }
+});
+
+// 2. Commits Over Time (by Year) — Stacked
+new Chart(document.getElementById('chartYearlyCommits'), {
+  type: 'bar',
+  data: {
+    labels: ['2023', '2024', '2025', '2026 (YTD)'],
+    datasets: [
+      { label: 'Scanner', data: [11,650,339,135], backgroundColor: chartColors.accent5 },
+      { label: 'GSN', data: [0,185,417,141], backgroundColor: chartColors.accent },
+      { label: 'Admin', data: [417,115,56,0], backgroundColor: chartColors.accent2 },
+      { label: 'Others', data: [0,41,302,131], backgroundColor: chartColors.accent4 },
+    ]
+  },
+  options: {
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, padding: 10 } } },
+    scales: { x: { stacked: true }, y: { stacked: true, grid: { color: gridColor } } }
+  }
+});
+
+// 3. Lines Added vs Removed
+new Chart(document.getElementById('chartLOC'), {
+  type: 'bar',
+  data: {
+    labels: ['GSN','Scanner','GBS','GBL','Dapp','Admin','Swap','DMS','Gas-Stn','Exp-Cfg'],
+    datasets: [
+      { label: 'Added', data: [42151,25944,11944,7535,6837,5941,3873,1206,1014,611], backgroundColor: chartColors.accent2 },
+      { label: 'Removed', data: [19870,14443,20007,2327,3255,2993,1107,728,5346,94], backgroundColor: chartColors.accent4 },
+    ]
+  },
+  options: {
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } },
+    scales: { y: { grid: { color: gridColor } } }
+  }
+});
+
+// 4. Performance Ratings by Cycle
+new Chart(document.getElementById('chartRatings'), {
+  type: 'line',
+  data: {
+    labels: ['Feb-May\'23', 'Apr-Sep\'23', 'Oct\'23-Mar\'24', 'Apr-Sep\'24', 'Oct\'24-Mar\'25', 'Apr-Oct\'25', 'Oct\'25-Mar\'26'],
+    datasets: [
+      {
+        label: 'Self Rating (avg)',
+        data: [3.0, 4.0, 3.0, 4.6, 4.2, 4.2, 4.3],
+        borderColor: chartColors.accent5,
+        backgroundColor: 'rgba(116,185,255,0.1)',
+        tension: 0.3,
+        fill: true,
+        pointRadius: 5,
+      },
+      {
+        label: 'Manager Rating (avg)',
+        data: [null, 4.0, 4.0, 4.2, 4.0, 3.95, null],
+        borderColor: chartColors.accent2,
+        backgroundColor: 'rgba(0,184,148,0.1)',
+        tension: 0.3,
+        fill: true,
+        pointRadius: 5,
+      }
+    ]
+  },
+  options: {
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } },
+    scales: {
+      y: { min: 1, max: 5, ticks: { stepSize: 1, callback: v => v + '/5' }, grid: { color: gridColor } },
+      x: { grid: { color: gridColor } }
+    }
+  }
+});
+
+// 5. Monthly Commit Activity
+const months = ['Dec\'23','Jan\'24','Feb\'24','Mar\'24','Apr\'24','May\'24','Jun\'24','Jul\'24','Aug\'24','Sep\'24','Oct\'24','Nov\'24','Dec\'24','Jan\'25','Feb\'25','Mar\'25','Apr\'25','May\'25','Jun\'25','Jul\'25','Aug\'25','Sep\'25','Oct\'25','Nov\'25','Dec\'25','Jan\'26','Feb\'26','Mar\'26','Apr\'26'];
+const monthlyData = [11,80,72,25,10,34,25,44,1,4,38,64,31,27,29,18,15,31,43,67,63,90,108,76,119,45,74,33,28];
+new Chart(document.getElementById('chartMonthly'), {
+  type: 'line',
+  data: {
+    labels: months,
+    datasets: [{
+      label: 'Total Commits',
+      data: monthlyData,
+      borderColor: chartColors.accent,
+      backgroundColor: 'rgba(108,92,231,0.15)',
+      tension: 0.3,
+      fill: true,
+      pointRadius: 3,
+    }]
+  },
+  options: {
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { grid: { color: gridColor } },
+      x: { grid: { color: gridColor }, ticks: { maxRotation: 45 } }
+    }
+  }
+});
+
+// 6. Quantified Impact Metrics
+new Chart(document.getElementById('chartImpact'), {
+  type: 'bar',
+  data: {
+    labels: ['RPC Calls\nReduction', 'Processor Cost\nReduction', 'Service Latency\nReduction (GSN)', 'CPU Utilization\nReduction (GBL)', 'AWS Logs Cost\nSaved ($K)', 'CRT Tickets\nResolved', 'Test Coverage\nType2 Txns (%)', 'Confluence\nDocs Authored'],
+    datasets: [{
+      label: 'Impact Value',
+      data: [3, 10, 50, 50, 4, 18, 98, 44],
+      backgroundColor: [chartColors.accent5, chartColors.accent2, chartColors.accent, chartColors.teal, chartColors.accent3, chartColors.accent4, chartColors.green, chartColors.accent6],
+      borderRadius: 6,
+    }]
+  },
+  options: {
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: function(ctx) {
+            const suffixes = ['x','x','%','%','K+','','%',''];
+            return ctx.raw + suffixes[ctx.dataIndex];
+          }
+        }
+      }
+    },
+    scales: { y: { grid: { color: gridColor } } }
+  }
+});
+
+// 7. Services Touched Per Cycle
+new Chart(document.getElementById('chartServicesCycle'), {
+  type: 'radar',
+  data: {
+    labels: ['Scanner', 'GSN/GSS', 'Admin', 'Onboarding', 'IRS', 'Dapp', 'DMS', 'GBL', 'BFF'],
+    datasets: [
+      {
+        label: '2023 (Feb-Sep)',
+        data: [2, 0, 5, 5, 0, 0, 0, 0, 0],
+        borderColor: chartColors.accent5,
+        backgroundColor: 'rgba(116,185,255,0.1)',
+      },
+      {
+        label: '2024 (Oct\'23-Sep\'24)',
+        data: [5, 4, 3, 1, 0, 1, 0, 1, 0],
+        borderColor: chartColors.accent2,
+        backgroundColor: 'rgba(0,184,148,0.1)',
+      },
+      {
+        label: '2025 (Oct\'24-Oct\'25)',
+        data: [4, 5, 1, 0, 4, 3, 3, 3, 1],
+        borderColor: chartColors.accent3,
+        backgroundColor: 'rgba(253,203,110,0.1)',
+      },
+      {
+        label: '2026 (Oct\'25-Now)',
+        data: [4, 3, 0, 0, 1, 1, 0, 1, 2],
+        borderColor: chartColors.accent4,
+        backgroundColor: 'rgba(225,112,85,0.1)',
+      },
+    ]
+  },
+  options: {
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, padding: 8 } } },
+    scales: { r: { grid: { color: gridColor }, pointLabels: { color: tickColor }, ticks: { display: false }, min: 0, max: 5 } }
+  }
+});
+
+// 8. Confluence Docs by Category
+new Chart(document.getElementById('chartDocsCat'), {
+  type: 'doughnut',
+  data: {
+    labels: ['TRDs & Design Docs', 'RCAs & Incident Reports', 'API Contracts & Schemas', 'Event Schemas & Data', 'POCs & Exploration', 'Onboarding Guides', 'Service Docs'],
+    datasets: [{
+      data: [6, 6, 5, 8, 5, 4, 10],
+      backgroundColor: [chartColors.accent, chartColors.accent4, chartColors.accent5, chartColors.accent2, chartColors.accent3, chartColors.accent6, chartColors.teal],
+      borderWidth: 0,
+    }]
+  },
+  options: {
+    plugins: { legend: { position: 'right', labels: { boxWidth: 12, padding: 8 } } },
+    cutout: '55%',
+  }
+});
+
+// 9. Language Distribution
+new Chart(document.getElementById('chartLangs'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Go (Scanner, GSN, BFF, IRS, Swap, Nonce, Dapp, ExpConfig)', 'Node.js/TS (Admin, GSS, GBL, FE, PS)', 'Java (DMS, DataAgg, DataQuery)'],
+    datasets: [{
+      data: [10, 5, 3],
+      backgroundColor: [chartColors.accent5, chartColors.accent3, chartColors.accent4],
+      borderWidth: 0,
+    }]
+  },
+  options: {
+    plugins: { legend: { position: 'right', labels: { boxWidth: 12, padding: 8 } } },
+    cutout: '55%',
+  }
+});
+
+// 10a. Test Coverage by Feature
+new Chart(document.getElementById('chartTestCoverage'), {
+  type: 'bar',
+  data: {
+    labels: ['Type 2 Txns\n(GSN/Swap/Dapp)', 'Config-based\nScanner', 'Off-chain\nIRS', 'Team Target'],
+    datasets: [{
+      label: 'Test Coverage %',
+      data: [98, 100, 97, 95],
+      backgroundColor: [chartColors.accent2, chartColors.accent, chartColors.accent5, 'rgba(255,255,255,0.15)'],
+      borderRadius: 6,
+      borderWidth: 0,
+    }]
+  },
+  options: {
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ctx.raw + '%' } }
+    },
+    scales: {
+      y: { min: 90, max: 102, ticks: { callback: v => v + '%' }, grid: { color: gridColor } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// 10b. Manager vs Self Ratings by Goal Category (Apr'25-Oct'25)
+new Chart(document.getElementById('chartGoalRatings'), {
+  type: 'bar',
+  data: {
+    labels: ['Growth', 'Initiatives', 'Quality', 'Execution', 'Talent', 'Communication'],
+    datasets: [
+      { label: 'Self', data: [5, 5, 4, 4.2, 3, 5], backgroundColor: chartColors.accent5, borderRadius: 4 },
+      { label: 'Manager', data: [4, 4, 4, 3.9, 3, 4], backgroundColor: chartColors.accent2, borderRadius: 4 },
+    ]
+  },
+  options: {
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } },
+    scales: {
+      y: { min: 1, max: 5, ticks: { stepSize: 1, callback: v => v + '/5' }, grid: { color: gridColor } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// 11. Jira Issues by Year & Type
+new Chart(document.getElementById('chartJiraByYear'), {
+  type: 'bar',
+  data: {
+    labels: ['2023', '2024', '2025', '2026 (YTD)'],
+    datasets: [
+      { label: 'Stories/Tasks', data: [6, 16, 21, 7], backgroundColor: chartColors.accent5, borderRadius: 4 },
+      { label: 'Bugs', data: [6, 11, 33, 0], backgroundColor: chartColors.accent4, borderRadius: 4 },
+      { label: 'Spikes', data: [3, 2, 6, 1], backgroundColor: chartColors.accent3, borderRadius: 4 },
+    ]
+  },
+  options: {
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } },
+    scales: { x: { stacked: true }, y: { stacked: true, grid: { color: gridColor } } }
+  }
+});
+
+// 12. Slack Channel Activity
+new Chart(document.getElementById('chartSlackChannels'), {
+  type: 'bar',
+  data: {
+    labels: ['#okto-prod-\nincidents', '#eng-squad-\ndefi', '#devs-platform-\npr-review', '#gsn-\nrefactoring', '#dtn-team', '#dp_pr-\napprovers', '#common-\nlibrary', '#defi-\ntech-team'],
+    datasets: [{
+      label: 'Messages',
+      data: [60, 20, 20, 20, 20, 10, 6, 20],
+      backgroundColor: [chartColors.accent4, chartColors.accent5, chartColors.accent, chartColors.accent2, chartColors.accent3, chartColors.accent6, chartColors.teal, chartColors.pink],
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    plugins: { legend: { display: false } },
+    scales: { x: { grid: { color: gridColor } }, y: { grid: { display: false } } }
+  }
+});
+
+// 13. PR Distribution by Repository
+new Chart(document.getElementById('chartPRsByRepo'), {
+  type: 'doughnut',
+  data: {
+    labels: ['okto-gsn (12)', 'okto-scanner (7)', 'okto-admin (5)', 'okto-dapp (4)', 'okto-gbl (3)', 'okto-onboarding (3)', 'okto-bff (2)', 'okto-swap (2)', 'okto-irs (2)', 'Others (3)'],
+    datasets: [{
+      data: [12, 7, 5, 4, 3, 3, 2, 2, 2, 3],
+      backgroundColor: [chartColors.accent, chartColors.accent5, chartColors.accent2, chartColors.accent3, chartColors.accent6, chartColors.teal, chartColors.orange, chartColors.pink, chartColors.blue, '#94a3b8'],
+      borderWidth: 0,
+    }]
+  },
+  options: {
+    plugins: { legend: { position: 'right', labels: { boxWidth: 10, padding: 6, font: { size: 11 } } } },
+    cutout: '50%',
+  }
+});
+
+// 14. Spikes & RCAs Delivered
+new Chart(document.getElementById('chartSpikesRCAs'), {
+  type: 'bar',
+  data: {
+    labels: ['Spikes\nCompleted', 'Spikes\nSuccessful', 'RCAs\nAuthored', 'TRDs\nAuthored', 'SOPs\nWritten'],
+    datasets: [{
+      label: 'Count',
+      data: [12, 11, 7, 6, 3],
+      backgroundColor: [chartColors.accent5, chartColors.accent2, chartColors.accent4, chartColors.accent, chartColors.accent3],
+      borderRadius: 6,
+    }]
+  },
+  options: {
+    plugins: { legend: { display: false } },
+    scales: { y: { grid: { color: gridColor }, ticks: { stepSize: 2 } }, x: { grid: { display: false } } }
+  }
+});
+
+// 15. Bug Resolution by Priority
+new Chart(document.getElementById('chartBugPriority'), {
+  type: 'doughnut',
+  data: {
+    labels: ['P0 (12)', 'P1 (29)', 'P2 (6)', 'P3 (3)'],
+    datasets: [{
+      data: [12, 29, 6, 3],
+      backgroundColor: [chartColors.accent4, chartColors.accent3, chartColors.accent5, chartColors.accent2],
+      borderWidth: 0,
+    }]
+  },
+  options: {
+    plugins: { legend: { position: 'right', labels: { boxWidth: 12, padding: 8 } } },
+    cutout: '55%',
+  }
+});
+
+// 16. Lines of Code by Year
+new Chart(document.getElementById('chartLOCByYear'), {
+  type: 'bar',
+  data: {
+    labels: ['2023', '2024', '2025', '2026 (YTD)'],
+    datasets: [
+      { label: 'Lines Added', data: [15000, 38000, 35000, 20000], backgroundColor: chartColors.accent2, borderRadius: 4 },
+      { label: 'Lines Removed', data: [8000, 22000, 27000, 14000], backgroundColor: chartColors.accent4, borderRadius: 4 },
+    ]
+  },
+  options: {
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } },
+    scales: {
+      y: { grid: { color: gridColor }, ticks: { callback: v => (v/1000)+'K' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// 17. Career Progression
+new Chart(document.getElementById('chartCareer'), {
+  type: 'line',
+  data: {
+    labels: ['Feb \'23', 'Jun \'23', 'Oct \'23', 'Apr \'24', 'Oct \'24', 'Apr \'25', 'Oct \'25', 'Apr \'26'],
+    datasets: [{
+      label: 'Career Level',
+      data: [1, 2, 2, 2, 2, 3, 3, 3],
+      borderColor: chartColors.accent,
+      backgroundColor: chartColors.accent,
+      stepped: true,
+      fill: false,
+      pointRadius: 6,
+      pointBackgroundColor: [chartColors.accent3, chartColors.accent2, chartColors.accent2, chartColors.accent2, chartColors.accent2, chartColors.accent, chartColors.accent, chartColors.accent],
+    }]
+  },
+  options: {
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: function(ctx) {
+            const roles = ['','Intern','SDE','SSE-1'];
+            return roles[ctx.raw] || '';
+          }
+        }
+      }
+    },
+    scales: {
+      y: {
+        min: 0, max: 4,
+        ticks: {
+          stepSize: 1,
+          callback: function(v) {
+            return ['','Intern','SDE','SSE-1',''][v] || '';
+          }
+        },
+        grid: { color: gridColor }
+      },
+      x: { grid: { color: gridColor } }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
